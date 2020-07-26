@@ -6,7 +6,7 @@ Checks if the Rogue Fitness products are in stock, and tells you which ones and 
 
 ### ![HULKBUSTER Terminal Output](https://i.imgur.com/8s4dtDo.gif)
 
-After the script runs, a web browser opens:
+After the script runs and detects an in-stock item, a web browser opens:
 
 ### ![Opened web browsers](https://i.imgur.com/QCPwowr.png)
 
