@@ -1,0 +1,9 @@
+old.py
+geckodriver.log
+.idea/*
+.idea
+.env/*
+.env
+venv/*
+venv
+
