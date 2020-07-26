@@ -11,7 +11,7 @@ git clone https://github.com/MarkBuffalo/HULKBUSTER.git
 cd HULKBUSTER 
 pip3 install -r requirements.txt
 ```
-You now need to edit `products.txt`. Visit roguefitness.com and add products you want to search to products.txt, separated by new lines.
+You now need to edit `products.txt`. Visit roguefitness.com and add products you want to search to products.txt, separated by new lines. A default list of products is included.
 
 
 # Run 
