@@ -4,7 +4,7 @@
 
 ## What does it do?
 
-Checks if the Rogue Fitness grab bags and other products are in stock, and tells you which ones are in stock, then opens a web browser and plays an alarm.
+Checks if the Rogue Fitness products are in stock, and tells you which ones and which options are in stock, then opens a web browser and plays an alarm. Some features do not work. This is a work-in-progress.
 
 # Install
 ```
