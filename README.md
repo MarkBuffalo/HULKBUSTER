@@ -1,5 +1,6 @@
 # HULKBUSTER
 
+![Image of Yaktocat](https://i.imgur.com/yO15yxI.png)
 
 ## What does it do?
 
