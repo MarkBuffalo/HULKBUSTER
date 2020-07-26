@@ -1,6 +1,6 @@
 # HULKBUSTER
 
-![Image of Yaktocat](https://i.imgur.com/yO15yxI.png)
+[![asciicast](https://asciinema.org/a/8clma7rV08jWG5oCtP443ewpf.svg)](https://asciinema.org/a/8clma7rV08jWG5oCtP443ewpf)
 
 ## What does it do?
 
