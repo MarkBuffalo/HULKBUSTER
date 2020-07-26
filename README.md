@@ -1,8 +1,10 @@
 # HULKBUSTER
 
-[![HULKBUSTER Terminal Output](https://i.imgur.com/8s4dtDo.gif)](https://i.imgur.com/8s4dtDo.gif)
+![HULKBUSTER Terminal Output](https://i.imgur.com/8s4dtDo.gif)
 
-[![Open web browser](https://i.imgur.com/8s4dtDo.gif)](https://i.imgur.com/QCPwowr.png)
+
+
+![Opened web browsers](https://i.imgur.com/QCPwowr.png)
 
 ## What does it do?
 
