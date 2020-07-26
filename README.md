@@ -34,6 +34,8 @@ I have no idea if this will work correctly on a windows machine or not, and I do
 3. [Install Ubuntu](https://www.youtube.com/watch?v=diIW3fgewhI) on the virtual box.
 4. Run the install commands again.
 
+If you're using a virtual machine, please make sure you're logged in to rogue fitness. If you're logged out, you can't make a purchase easily. 
+
 ## Run 
 ```
 $ python3 hulkbuster.py
