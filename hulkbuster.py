@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 
-class Grabby:
+class HulkBuster:
     def __init__(self):
         self.request = None
         # Every X seconds. In this case, 15.
@@ -164,7 +164,7 @@ class Grabby:
 
 
 if __name__ == "__main__":
-    gb = Grabby()
+    hb = HulkBuster()
     s = sched.scheduler(time.time, time.sleep)
-    s.enter(1, 1, gb.start, (s,))
+    s.enter(1, 1, hb.start, (s,))
     s.run()
