@@ -14,10 +14,9 @@ pip3 install -r requirements.txt
 ```
 You now need to edit `products.txt`. Visit roguefitness.com and add products you want to search to products.txt, separated by new lines. A default list of products is included.
 
-### Windows users.
+### Installation problems. 
 
 Please note that Windows is not supported, only Linux/macOS. 
-
 
 #### macOS
 
@@ -27,7 +26,8 @@ You may need to install homebrew. This is beyond the scope of the readme. Sorry!
 
 Install Instructions should work out of the box.
 
-#### Windows I have no idea if this will work correctly on a windows machine or not, and I don't care. If you don't have a mac or Linux machine, my advice is to try the following:
+#### Windows  
+I have no idea if this will work correctly on a windows machine or not, and I don't care. If you don't have a mac or Linux machine, my advice is to try the following:
 
 1. Download [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 2. Download [Ubuntu](https://ubuntu.com/download/desktop)
