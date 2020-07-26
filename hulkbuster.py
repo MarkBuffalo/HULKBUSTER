@@ -154,7 +154,7 @@ class Grabby:
     def play_sound(self, url):
         try:
             rnd_string = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(7))
-            webbrowser.open(f"{url}?{rnd_string}")
+            webbrowser.open(f"{url}?={rnd_string}")
         except Exception:
             print("Couldn't open web browser. This is all your fault")
         try:
