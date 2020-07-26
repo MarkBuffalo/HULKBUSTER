@@ -1,6 +1,6 @@
 # HULKBUSTER
 
-[![asciicast](https://asciinema.org/a/8clma7rV08jWG5oCtP443ewpf.svg)](https://asciinema.org/a/8clma7rV08jWG5oCtP443ewpf)
+[![asciicast](https://i.imgur.com/8s4dtDo.gif)](https://i.imgur.com/8s4dtDo.gif)
 
 ## What does it do?
 
