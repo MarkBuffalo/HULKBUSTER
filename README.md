@@ -1,14 +1,15 @@
 # HULKBUSTER
 
-![HULKBUSTER Terminal Output](https://i.imgur.com/8s4dtDo.gif)
-
-
-
-![Opened web browsers](https://i.imgur.com/QCPwowr.png)
-
 ## What does it do?
 
 Checks if the Rogue Fitness products are in stock, and tells you which ones and which options are in stock, then opens a web browser and plays an alarm. Some features do not work. This is a work-in-progress.
+
+### ![HULKBUSTER Terminal Output](https://i.imgur.com/8s4dtDo.gif)
+
+After the script runs, a web browser opens:
+
+### ![Opened web browsers](https://i.imgur.com/QCPwowr.png)
+
 
 ## Install
 ```
