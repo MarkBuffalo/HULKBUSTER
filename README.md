@@ -44,4 +44,17 @@ If you're using a virtual machine, please make sure you're logged in to rogue fi
 ## Run 
 ```
 $ python3 hulkbuster.py
+
+
+Welcome to HULKBUSTER! Let's park in front of 
+Rogue Fitness until our gear is in stock!
+
+  _  _ _   _ _    _  _____ _   _ ___ _____ ___ ___ 
+ | || | | | | |  | |/ / _ ) | | / __|_   _| __| _ \
+ | __ | |_| | |__| ' <| _ \ |_| \__ \ | | | _||   /
+ |_||_|\___/|____|_|\_\___/\___/|___/ |_| |___|_|_\
+
+[2020-07-27 @ 00:13:56] IN STOCK [Rogue Calibrated LB Steel Plates] [0.25LB Calibrated Plate - Pair]
+[2020-07-27 @ 00:13:59] IN STOCK [Rogue Calibrated KG Steel Plates] [0.25KG Calibrated Plate - Pair]
+[2020-07-27 @ 00:14:00] IN STOCK [Rogue Calibrated KG Steel Plates] [0.5KG Calibrated Plate - Pair]
 ```
