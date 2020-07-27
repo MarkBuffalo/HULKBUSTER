@@ -102,28 +102,57 @@ class HulkBuster:
                     self.update_all(url, item[0], title)
 
         else:
-            try:
-                js = str(self.soup.findAll("div", {"id": "product-options-wrapper"})[0].
-                         findAll("script")[0]).splitlines()[5][:-1]
+            # Maybe the options are stored in javascript on the page? If so, let's try to read that.
+            # May need to change some code around if there's a problem in the future.
+            # Likely the problem is the 'js' being on a different line than anticipated.
+            self.read_js_json_payload(url, title)
 
-                attributes = json.loads(js)['attributes']
-                for i in attributes:
-                    for x in attributes.get(i):
-                        new_list = attributes[i][x]
-                        if type(new_list) == list:
-                            options = new_list[0]["additional_options"]
-                            if type(options) == dict:
-                                for z in options:
-                                    in_stock = options[z].get("isInStock")
-                                    option_label = options[z].get("label")
-                                    if in_stock:
-                                        self.update_all(url, option_label, title)
-            except Exception:
-                pass
+    def read_js_json_payload(self, url, title):
+        js = None
+        try:
+            js = str(self.soup.findAll("div", {"id": "product-options-wrapper"})[0].
+                     findAll("script")[0]).splitlines()[5][:-1]
+
+            if len(js) > 0:
+                attributes = []
+                try:
+                    attributes = json.loads(js)['attributes']
+                except TypeError:
+                    pass
+                if len(attributes) > 0:
+                    for attr in attributes:
+                        for i in attributes.get(attr):
+                            new_list = attributes[attr][i]
+                            if type(new_list) == list:
+                                options = new_list[0]["additional_options"]
+                                if type(options) == dict:
+                                    for opt in options:
+                                        in_stock = options[opt].get("isInStock")
+                                        option_label = options[opt].get("label")
+                                        if in_stock:
+                                            self.update_all(url, option_label, title)
+            else:
+                # This might be something like the "OSO" mini bar page.
+                self.read_additional_options(url, title)
+        except TypeError:
+            pass
+        except Exception as e:
+            print(f"=======\nSend this to me: \nURL: {url}\nTitle: {title}\njs: {js}\nError: {str(e)}\n=======")
+            raise
+
+    def read_additional_options(self, url, title):
+        add_to_cart_button = self.soup.findAll("div", {"class": "add-to-cart"})[0].text.rstrip()
+        if len(add_to_cart_button) > 0:
+            # Until this comes in stock, I can't reliably test it. We'll use the "title" as the product item name.
+            # So, no options. e.g: Purple, Red, Blue, Green.
+            new_title = self.soup.findAll("title")[0].text.split("|")[0].rstrip()
+            self.update_all(url, new_title, new_title)
+        pass
 
     def get_time(self):
         now = datetime.now()
-        return now.strftime(f"{self.d}[{self.b}%Y{self.d}-{self.b}%m{self.d}-{self.b}%d{self.d} @ {self.b}%H{self.d}:{self.b}%M{self.d}:{self.b}%S{self.d}]{self.b}")
+        return now.strftime(f"{self.d}[{self.b}%Y{self.d}-{self.b}%m{self.d}-{self.b}%d{self.d} @ "
+                            f"{self.b}%H{self.d}:{self.b}%M{self.d}:{self.b}%S{self.d}]{self.b}")
 
     def update_urls(self, url, alert_str):
         if not self.item_used(url, self.opened_urls):
