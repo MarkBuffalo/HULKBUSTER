@@ -15,7 +15,7 @@ class HulkBuster:
     def __init__(self):
         self.request = None
         # Every X seconds. In this case, 15.
-        self.interval = 30
+        self.interval = 15
         # The sound file to play.
         self.sound_file = "wake_up.wav"
         # The base rogue fitness url.
@@ -135,6 +135,8 @@ class HulkBuster:
                 # This might be something like the "OSO" mini bar page.
                 self.read_additional_options(url, title)
         except TypeError:
+            pass
+        except IndexError:
             pass
         except Exception as e:
             print(f"=======\nSend this to me: \nURL: {url}\nTitle: {title}\njs: {js}\nError: {str(e)}\n=======")
