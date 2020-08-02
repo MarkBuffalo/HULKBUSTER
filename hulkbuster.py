@@ -139,6 +139,9 @@ class HulkBuster:
                 try:
                     js = json.loads(str(self.soup.findAll("div", {"class": "default-swatches"})[0].
                                         findAll("script")[0]).splitlines()[2][:-1])
+                except IndexError:
+                    # Doesn't exist, just ignore it.
+                    pass
                 except Exception:
                     try:
                         raise Exception(f"You're on {url}. Title is {title}.\n Send me this stack trace")
