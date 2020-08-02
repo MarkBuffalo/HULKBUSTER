@@ -3,6 +3,7 @@ import sched
 import time
 import webbrowser
 import json
+import traceback
 import random
 import string
 from colorama import Fore
@@ -136,9 +137,14 @@ class HulkBuster:
             if not is_in_stock:
                 attributes = []
                 try:
-                    js = json.loads(str(soup.findAll("div", {"class": "default-swatches"})[0].findAll("script")[0]).splitlines()[2][:-1])
+                    js = json.loads(str(self.soup.findAll("div", {"class": "default-swatches"})[0].
+                                        findAll("script")[0]).splitlines()[2][:-1])
                 except Exception:
-                    pass
+                    try:
+                        raise Exception(f"You're on {url}. Title is {title}.\n Send me this stack trace")
+                    except:
+                        pass
+                    traceback.print_exc()
 
                 #  For color swatches.
                 if len(js) > 0:
