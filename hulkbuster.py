@@ -109,6 +109,7 @@ class HulkBuster:
 
     def read_js_json_payload(self, url, title):
         js = None
+        is_in_stock = False
         try:
             js = str(self.soup.findAll("div", {"id": "product-options-wrapper"})[0].
                      findAll("script")[0]).splitlines()[5][:-1]
@@ -130,10 +131,30 @@ class HulkBuster:
                                         in_stock = options[opt].get("isInStock")
                                         option_label = options[opt].get("label")
                                         if in_stock:
+                                            is_in_stock = True
                                             self.update_all(url, option_label, title)
-            else:
-                # This might be something like the "OSO" mini bar page.
-                self.read_additional_options(url, title)
+            if not is_in_stock:
+                attributes = []
+                try:
+                    js = json.loads(str(soup.findAll("div", {"class": "default-swatches"})[0].findAll("script")[0]).splitlines()[2][:-1])
+                except Exception:
+                    pass
+
+                #  For color swatches.
+                if len(js) > 0:
+                    for attr in attributes:
+                        new_dict = attributes[attr]
+                        if type(new_dict) == dict:
+                            for item in new_dict:
+                                new_list = new_dict.get(item)
+                                if type(new_list) == list:
+                                    for prod in new_list:
+                                        label = prod.get("label")
+                                        if not "Out of Stock".lower() in label.lower() and not "Coming Soon".lower() in label.lower():
+                                            self.update_all(url, label, title)
+                else:
+                    # This might be something like the "OSO" mini bar page.
+                    self.read_additional_options(url, title)
         except TypeError:
             pass
         except IndexError:
@@ -197,5 +218,10 @@ class HulkBuster:
 if __name__ == "__main__":
     hb = HulkBuster()
     s = sched.scheduler(time.time, time.sleep)
-    s.enter(1, 1, hb.start, (s,))
+    try:
+        s.enter(1, 1, hb.start, (s,))
+    except urllib3.exceptions.ProtocolError:
+        pass
+    except requests.exceptions.ConnectionError:
+        pass
     s.run()
