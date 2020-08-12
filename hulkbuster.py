@@ -19,6 +19,8 @@ class HulkBuster:
         self.request = None
         # Every X seconds. In this case, 15.
         self.interval = 15
+        # Reset the self.opened_urls and self.opened_items every 8 hours in case someone forgets to turn it on/off.
+        self.list_reset_interval = 28800
         # The sound file to play.
         self.sound_file = "wake_up.wav"
         # The base rogue fitness url.
@@ -41,6 +43,12 @@ class HulkBuster:
         self.banner += f"{self.d} |{self.c} __ | |_| | |__| ' <| _ \ |_| \__ \ | | | _||   {self.d}/{self.b}\n"
         self.banner += f"{self.d} |_||_|\___/|____|_|\_\___/\___/|___/ |_| |___|_|_{self.d}\\{self.b}\n"
         print(self.banner)
+
+
+    def reset_items(self, scheduler):
+        self.opened_items = []
+        self.opened_urls = []
+        s.enter(self.list_reset_interval, 1, self.reset_items, (scheduler,))
 
     def start(self, scheduler):
         # Don't follow redirects. This gets us the true status code.
@@ -229,9 +237,12 @@ class HulkBuster:
 if __name__ == "__main__":
     hb = HulkBuster()
     s = sched.scheduler(time.time, time.sleep)
+    item_reset = sched.scheduler(time.time, time.sleep)
     try:
         s.enter(1, 1, hb.start, (s,))
         s.run()
+        # Reset the item list so it doesn't perpetually refuse to open previously unopened urls.
+        item_reset.enter(28800, 1, hb.reset_items, (item_reset,))
     except urllib3.exceptions.ProtocolError:
         pass
     except requests.exceptions.ConnectionError:
