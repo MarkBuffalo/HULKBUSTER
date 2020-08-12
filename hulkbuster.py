@@ -10,6 +10,8 @@ from colorama import Fore
 from playsound import playsound
 from bs4 import BeautifulSoup
 from datetime import datetime
+import urllib3
+import sys
 
 
 class HulkBuster:
@@ -229,8 +231,17 @@ if __name__ == "__main__":
     s = sched.scheduler(time.time, time.sleep)
     try:
         s.enter(1, 1, hb.start, (s,))
+        s.run()
     except urllib3.exceptions.ProtocolError:
         pass
     except requests.exceptions.ConnectionError:
         pass
-    s.run()
+    # When you switch VPNs.
+    except requests.exceptions.ChunkedEncodingError:
+        pass
+    # When your computer goes to sleep.
+    except OSError:
+        pass
+    except KeyboardInterrupt:
+        sys.exit(0)
+
