@@ -12,13 +12,15 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import urllib3
 import sys
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 
 
 class HulkBuster:
     def __init__(self):
         self.request = None
         # Every X seconds. In this case, 15.
-        self.interval = 15
+        self.interval = 30
         # Reset the self.opened_urls and self.opened_items every 8 hours in case someone forgets to turn it on/off.
         self.list_reset_interval = 28800
         # The sound file to play.
@@ -34,7 +36,11 @@ class HulkBuster:
         self.c = Fore.LIGHTYELLOW_EX
         self.d = Fore.LIGHTRED_EX
         self.e = Fore.LIGHTBLUE_EX
+        self.cookies = {}
         self.f = Fore.LIGHTCYAN_EX
+        self.options = Options()
+        self.options.headless = True
+        self.firefox = webdriver.Firefox(options=self.options)
         self.banner = f"\n\nWelcome to {self.a}HULK{self.d}BUSTER{self.b}! Let's park in front of \n" \
                       f"{self.e}Rogue Fitness{self.b} until our gear is in stock!\n\n"
 
@@ -42,8 +48,15 @@ class HulkBuster:
         self.banner += f"{self.d} |{self.b} || | | | | |  | |/ / _ ) | | / __|_   _| __| _ {self.d}\\{self.b}\n"
         self.banner += f"{self.d} |{self.c} __ | |_| | |__| ' <| _ \ |_| \__ \ | | | _||   {self.d}/{self.b}\n"
         self.banner += f"{self.d} |_||_|\___/|____|_|\_\___/\___/|___/ |_| |___|_|_{self.d}\\{self.b}\n"
-        print(self.banner)
 
+        self.invalid_options = [
+            "Choose a selection",
+            "Out of Stock",
+            "Choose an option",
+            "English (United States)"
+        ]
+
+        print(self.banner)
 
     def reset_items(self, scheduler):
         self.opened_items = []
@@ -56,22 +69,25 @@ class HulkBuster:
             self.product_urls = f.read().splitlines()
 
         for url in self.product_urls:
-            self.request = requests.get(url, allow_redirects=False)
-            # This page is up! That means the used bars are available. Let's print.
-            if self.request.status_code == 200:
-                # This one is for grab bags / available options.
-                self.print_availability(url)
-                # This one is for everything else.
-                self.check_other_quantity(url)
-            # This is 301 or something else. There are no grab bag bars available.
-            else:
-                pass
-                #print("Not in stock")
+            self.firefox.get(url)
+
+            if self.captcha_triggered():
+                print(f"Captcha triggered. Can't continue. Report this: \n{self.firefox.page_source}")
+                sys.exit(0)
+
+            self.print_availability(url)
+            # This one is for everything else.
+            self.check_other_quantity(url)
             # Repeat this same function every X seconds.
             s.enter(self.interval, 1, self.start, (scheduler,))
 
+    def captcha_triggered(self):
+        if "to make sure it is not infected with malware" in self.firefox.page_source:
+            print("Captcha Triggered")
+
     def print_availability(self, url):
-        self.soup = BeautifulSoup(self.request.text, "html.parser")
+        self.soup = BeautifulSoup(self.firefox.page_source, "html.parser")
+
         title = self.soup.findAll("title")[0].text.split("|")[0].rstrip()
         #print(f"Checking {url}")
         found_something = False
@@ -80,9 +96,8 @@ class HulkBuster:
         # We're going to trawl through the options and ignore everything that isn't a product.
         for i in self.soup.findAll("option"):
             new_item = i.text.strip()
-            if "Choose a Selection" not in new_item and "Choose an Option" not in new_item:
-                if "Out of stock" not in new_item and "Coming Soon" not in new_item:
-                    found_something = True
+            if "$" in new_item and "Coming Soon" not in new_item and "Out of Stock" not in new_item:
+                found_something = True
         if found_something:
             self.update_all(url, new_item, title)
 
@@ -97,6 +112,7 @@ class HulkBuster:
     def check_other_quantity(self, url):
         quantity = []
         title = self.soup.findAll("title")[0].text.split("|")[0].rstrip()
+
         try:
             for item in self.soup.findAll("div", {"class": "grouped-item"})[1:]:
                 item_name = item.findAll("div", {"class", "item-name"})[0].text
@@ -242,17 +258,20 @@ if __name__ == "__main__":
         s.enter(1, 1, hb.start, (s,))
         s.run()
         # Reset the item list so it doesn't perpetually refuse to open previously unopened urls.
-        item_reset.enter(28800, 1, hb.reset_items, (item_reset,))
+        # item_reset.enter(28800, 1, hb.reset_items, (item_reset,))
     except urllib3.exceptions.ProtocolError:
+        print("damn")
         pass
     except requests.exceptions.ConnectionError:
+        print("wham")
         pass
     # When you switch VPNs.
     except requests.exceptions.ChunkedEncodingError:
+        print("in")
         pass
     # When your computer goes to sleep.
-    except OSError:
-        pass
+    except requests.exceptions.InvalidHeader:
+        raise
     except KeyboardInterrupt:
-        sys.exit(1)
+        pass
 
