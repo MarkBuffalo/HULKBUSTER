@@ -1,4 +1,6 @@
-colorama==0.4.1
-playsound==1.2.2
-requests==2.22.0
-beautifulsoup4==4.9.1
+urllib3
+requests
+selenium
+colorama
+playsound
+beautifulsoup4
