@@ -32,14 +32,7 @@ You may need to install homebrew. This is beyond the scope of the readme. Sorry!
 Install Instructions should work out of the box.
 
 #### Windows  
-I have no idea if this will work correctly on a windows machine or not, and I don't care. If you don't have a mac or Linux machine and you want to test the code out without running it locally and installing a bunch of packages, then my advice is to try the following:
-
-1. Download [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-2. Download [Ubuntu](https://ubuntu.com/download/desktop)
-3. [Install Ubuntu](https://www.youtube.com/watch?v=diIW3fgewhI) on the virtual box.
-4. Run the install commands again.
-
-If you're using a virtual machine, please make sure you're logged in to rogue fitness. If you're logged out, you can't make a purchase easily. 
+Not supported, but probably works.
 
 ## Run 
 ```
